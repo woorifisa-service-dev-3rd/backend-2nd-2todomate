@@ -1,4 +1,5 @@
-import '../app/global.css'
+import './global.css'
+import './reset.css';
 
 export const metadata = {
   title: "TodoMate",
