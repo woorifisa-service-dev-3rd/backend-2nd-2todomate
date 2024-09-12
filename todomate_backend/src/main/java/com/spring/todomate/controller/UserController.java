@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
  * 2. 생성자 자동 주입을 위한 애노테이션 추가
  * 3. RequestMapping을 위한 애노테이션 추가
  */
-@RequiredArgsConstructor
-@RestController
-@RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
-
     /**
-     * PostMapping을 위한 애노테이션 추가
+     * PostMapping을 위한 애노테이션 추가("/login" 으로 매핑)
      * RequestBody로 UserRequest 받아오는 파라미터 추가
      *
      */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest) {
 
-        System.out.println("login");
-
         // userService에서 아이디, 비밀번호 확인
         Long userId = userService.login(userRequest);
 
-        if(userId == null) return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
+        /**
+         * userId가 null일 경우
+         * ResponseEntity에 "아이디와 비밀번호를 확인해주세요."라는 메세지를 담아서
+         * 상태코드 401 Unauthorized로 반환
+         */
+        if(userId == null) return null;
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("userId", userId.toString());
+        /**
+         * 헤더에 userId를 담아서 반환
+         */
+        HttpHeaders headers;
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 }
