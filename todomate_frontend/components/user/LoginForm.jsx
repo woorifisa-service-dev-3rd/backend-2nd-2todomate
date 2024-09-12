@@ -9,7 +9,8 @@ export default function User({ onLogin }) {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
-
+   console.log(username,password);
+   
     await onLogin({ username, password });
     setUserName(username);
   };

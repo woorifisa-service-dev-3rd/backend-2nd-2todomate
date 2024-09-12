@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long login(UserRequest userRequest) {
 
-        Optional<User> findUser = userRepository.findByNameAndPassword(userRequest.getName(), userRequest.getPassword());
+        Optional<User> findUser = userRepository.findByNameAndPassword(userRequest.getUsername(), userRequest.getPassword());
 
         // 해당하는 유저 정보가 없는 경우
         if(findUser.isEmpty()) { // 해당하는 유저 정보가 없는 경우

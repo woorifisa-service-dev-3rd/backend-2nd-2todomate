@@ -33,12 +33,15 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest, HttpSession session) {
 
+        System.out.println("userRequest = " + userRequest);
+        
         // userService에서 아이디, 비밀번호 확인
         Long userId = userService.login(userRequest);
 
         if(userId == null) return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
 
         session.setAttribute("userId", userId);
+        System.out.println("로그인 성공");
         return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
     }
 }
