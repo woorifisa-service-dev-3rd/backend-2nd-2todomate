@@ -2,10 +2,10 @@ package com.spring.todomate.dto;
 
 
 import com.spring.todomate.model.Todo;
-import com.spring.todomate.model.User;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -23,7 +23,6 @@ public class TodoResponse {
     private String option;
     private LocalDate startDate;
     private LocalDate dueDate;
-    private User user;
 
     public static TodoResponse from (Todo todo) {
         return TodoResponse.builder()
@@ -33,8 +32,7 @@ public class TodoResponse {
                 .option(String.valueOf(todo.getOption()))
                 .startDate(todo.getStartDate())
                 .dueDate(todo.getDueDate())
-                .user(todo.getUser())
-                .dayUntilDue(todo.getDayUntilDue())
+                .dayUntilDue(ChronoUnit.DAYS.between(todo.getStartDate(), todo.getDueDate()))
                 .build();
     }
 }

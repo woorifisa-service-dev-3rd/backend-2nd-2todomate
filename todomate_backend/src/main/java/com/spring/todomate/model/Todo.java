@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
@@ -41,13 +42,15 @@ public class Todo extends BaseEntity{
     @JoinColumn(name="users_user_id")
     private User user;
 
-    public static Todo from(TodoRequest todoRequest) {
+    public static Todo from(User user, TodoRequest todoRequest) {
         return Todo.builder()
                 .title(todoRequest.getTitle())
                 .summary(todoRequest.getSummary())
                 .option(Option.valueOf(todoRequest.getOption()))
                 .startDate(todoRequest.getStartDate())
                 .dueDate(todoRequest.getDueDate())
+                .user(user)
+                .dayUntilDue(ChronoUnit.DAYS.between(todoRequest.getStartDate(), todoRequest.getDueDate()))
                 .build();
     }
 
@@ -57,33 +60,6 @@ public class Todo extends BaseEntity{
         this.option = Option.valueOf(todoRequest.getOption());
         this.startDate = todoRequest.getStartDate();
         this.dueDate = todoRequest.getDueDate();
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setOption(Option option) {
-        this.option = option;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public void setDayUntilDue(Long dayUntilDue) {
-        this.dayUntilDue = dayUntilDue;
+        this.dayUntilDue = ChronoUnit.DAYS.between(todoRequest.getStartDate(), todoRequest.getDueDate());
     }
 }

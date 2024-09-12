@@ -1,6 +1,5 @@
 package com.spring.todomate.service;
 
-
 import com.spring.todomate.dto.TodoRequest;
 import com.spring.todomate.dto.TodoResponse;
 import com.spring.todomate.model.Todo;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -32,9 +30,7 @@ public class TodoServiceImpl implements TodoService {
         );
 
         // 2. todo 객체 만들기
-        Todo todo = Todo.from(todoRequest);
-        todo.setDayUntilDue(ChronoUnit.DAYS.between(todo.getStartDate(), todo.getDueDate()));
-        todo.setUser(user);
+        Todo todo = Todo.from(user, todoRequest);
 
         // 3. 저장
         Todo saveTodo = todoRepository.save(todo);
@@ -48,12 +44,7 @@ public class TodoServiceImpl implements TodoService {
         List<Todo> todos = todoRepository.findByUserId(id);
 
         // 2. List<Todo> -> <TodoResponse>로 바꾸기 (from 메서드를 TodoResponse에 만들기)
-        List<TodoResponse> todoResponses = todos.stream().map(TodoResponse::from).collect(Collectors.toList());
-        for (TodoResponse todoResponse: todoResponses) {
-            Long daysBetween = ChronoUnit.DAYS.between(todoResponse.getStartDate(), todoResponse.getDueDate());
-            todoResponse.setDayUntilDue(daysBetween);
-        }
-        return todoResponses;
+        return todos.stream().map(TodoResponse::from).collect(Collectors.toList());
     }
 
     @Override
@@ -63,7 +54,6 @@ public class TodoServiceImpl implements TodoService {
 
         // 2. todo 객체 가져오기 -> todoId값을 기준으로 찾아서
         Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new RuntimeException("런타임 에러"));
-        todo.setDayUntilDue(ChronoUnit.DAYS.between(todo.getStartDate(), todo.getDueDate()));
 
         // 3. 가져온 거에 업데이트하기
         // 4. todorepository에 save하기
@@ -88,5 +78,4 @@ public class TodoServiceImpl implements TodoService {
         public Todo getTodoById(Long id) {
         return todoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Todo not found with id " + id));
     }
-    
 }
