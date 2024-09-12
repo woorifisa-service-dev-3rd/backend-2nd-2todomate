@@ -17,14 +17,20 @@ public class UserServiceImpl implements UserService{
     @Override
     public Long login(UserRequest userRequest) {
 
-        // userRepository에서 name과 password
-        Optional<User> findUser = userRepository.findByNameAndPassword(userRequest.getName(), userRequest.getPassword());
+        /**
+         * userRepository에서 name과 password로 user 찾아오기
+         */
+        Optional<User> findUser = userRepository
 
         // 해당하는 유저 정보가 없는 경우
-        if(findUser.isEmpty()) { // 해당하는 유저 정보가 없는 경우
+        if(findUser.isEmpty()) { // 해당하는 유저 정보가 없는 경우 null 반환
             return null;
-        } else {
-            return findUser.get().getId();
+        }
+        /**
+         * 해당 유저 정보가 있는 경우 findUser의 id 리턴
+         */
+        else {
+            return;
         }
     }
 }

@@ -22,11 +22,10 @@ public class UserController {
 
     /**
      * PostMapping을 위한 애노테이션 추가("/login" 으로 매핑)
-     * RequestBody로 UserRequest 받아오는 파라미터 추가
-     *
+     * RequestBody로 UserRequest 받아오는 파라미터 추가, 유효성 검사를 위한 애노테이션 추가
+     * HttpSession 정보를 가져오기 위한 파라미터 추가
      */
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest) {
+    public ResponseEntity<String> login() {
 
         // userService에서 아이디, 비밀번호 확인
         Long userId = userService.login(userRequest);
@@ -38,10 +37,8 @@ public class UserController {
          */
         if(userId == null) return null;
 
-        /**
-         * 헤더에 userId를 담아서 반환
-         */
-        HttpHeaders headers;
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+         // 로그인 정보를 세션에 저장
+        session.setAttribute("userId", userId);
+        return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
     }
 }
