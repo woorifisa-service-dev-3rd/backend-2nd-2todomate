@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState } from "react";
 import TodoBody from "./TodoBody";
 import TodoHeader from "./TodoHeader";
@@ -10,18 +10,24 @@ const dummyTodos = [
     title: "React 공부",
     summary: "React를 공부한다.",
     category: "TODO",
+    startDate: "2024-09-10",
+    dueDate: "2024-09-12",
   },
   {
     id: 2,
     title: "점심 먹기",
     summary: "점심을 먹는다.",
     category: "PROGRESS",
+    startDate: "2024-09-10",
+    dueDate: "2024-09-12",
   },
   {
     id: 3,
     title: "커피 마시기",
     summary: "커피를 마신다.",
     category: "DONE",
+    startDate: "2024-09-10",
+    dueDate: "2024-09-12",
   },
 ];
 
@@ -30,13 +36,15 @@ export default function todo() {
   const [selectedCategory, setFilter] = useState("ALL");
 
   // Todo 등록 기능, 파라미터로 새롭게 추가할 Todo 객체를 받음
-  const addTodoHandler = ({ title, summary, category }) => {
+  const addTodoHandler = ({ title, summary, category, startDate, dueDate }) => {
     // id값을 추가해서 Todo 등록
     const newTodo = {
       id: self.crypto.randomUUID(), // Web Crypto API
       title,
       summary,
       category,
+      startDate,
+      dueDate,
     };
 
     const updatedTodos = [...todos, newTodo];
@@ -90,4 +98,3 @@ export default function todo() {
     </>
   );
 }
-

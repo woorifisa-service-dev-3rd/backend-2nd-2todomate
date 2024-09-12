@@ -1,8 +1,7 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import IconButton from "@/components/ui/IconButton";
 import { TODO_CATEGORY_ICON } from "@/constants/icon";
-
 
 const TodoItemV2 = ({
   todo,
@@ -21,7 +20,19 @@ const TodoItemV2 = ({
   const [title, setTitle] = useState(todo.title);
   const [summary, setSummary] = useState(todo.summary);
   const [category, setCategory] = useState(todo.category);
+  const [startDate, setStartDate] = useState(todo.startDate);
+  const [dueDate, setDueDate] = useState(todo.dueDate);
   const [isInValid, setIsInValid] = useState(false);
+
+  // useEffect로 상태 값이 제대로 설정되는지 확인
+  useEffect(() => {
+    console.log("Todoitemv2");
+    console.log("Title: ", title);
+    console.log("Summary: ", summary);
+    console.log("Category: ", category);
+    console.log("StartDate: ", startDate);
+    console.log("DueDate: ", dueDate);
+  }, [title, summary, category, startDate, dueDate]);
 
   const updateHandler = () => {
     if (title === "" || summary === "") {
@@ -37,6 +48,8 @@ const TodoItemV2 = ({
       title,
       summary,
       category,
+      startDate,
+      dueDate,
     };
     onUpdate(updateTodo);
   };
@@ -44,6 +57,8 @@ const TodoItemV2 = ({
   const backHandler = () => {
     setTitle(todo.title);
     setSummary(todo.summary);
+    setStartDate(todo.startDate);
+    setDueDate(todo.dueDate);
     setIsUpdateMode(false);
     setIsInValid(false);
   };
@@ -55,14 +70,19 @@ const TodoItemV2 = ({
   };
 
   useEffect(() => {
-    if (title !== todo.title || summary !== todo.summary) {
+    if (
+      title !== todo.title ||
+      summary !== todo.summary ||
+      startDate !== todo.startDate ||
+      dueDate !== todo.dueDate
+    ) {
       setIsUpdateMode(true);
     }
 
-    if (title !== "" && summary !== "") {
+    if (title !== "" && summary !== "" && startDate !== "" && dueDate !== "") {
       setIsInValid(false);
     }
-  }, [title, summary]);
+  }, [title, summary, startDate, dueDate]);
 
   useEffect(() => {
     updateHandler();
@@ -113,6 +133,18 @@ const TodoItemV2 = ({
               event.target.style.height = `${event.target.scrollHeight}px`; // 내용에 따라 높이를 설정
             }}
           />
+
+          <input
+            type="date"
+            value={startDate}
+            onChange={(event) => setStartDate(event.target.value)}
+          />
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(event) => setDueDate(event.target.value)}
+          />
+
           {isInValid && (
             <div className="mt-2 text-red-500">
               모든 항목을 채워서 작성해주세요
