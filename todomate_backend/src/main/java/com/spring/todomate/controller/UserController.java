@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 1. RestController로 만들기 위한 애노테이션 추가
  * 2. 생성자 자동 주입을 위한 애노테이션 추가
@@ -31,17 +33,14 @@ public class UserController {
      *
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest) {
-
-        System.out.println("login");
+    public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest, HttpSession session) {
 
         // userService에서 아이디, 비밀번호 확인
         Long userId = userService.login(userRequest);
 
         if(userId == null) return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("userId", userId.toString());
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        session.setAttribute("userId", userId);
+        return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
     }
 }
