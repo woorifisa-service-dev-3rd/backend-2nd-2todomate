@@ -90,13 +90,18 @@ const TodoItemV2 = ({
       onDragOver={onDragOver}
     >
       <div className="w-4/5">
-        <span className="text-lg font-medium text-gray-300">
-          {/* {TODO_CATEGORY_ICON[todo.category]} */}
-          <IconButton
-            icon={TODO_CATEGORY_ICON[category]}
-            onClick={changCategoryHandler}
-          />
-        </span>
+        <div className="flex space-x-4">
+          <span className="text-lg font-medium text-gray-300">
+            {/* {TODO_CATEGORY_ICON[todo.category]} */}
+            <IconButton
+              icon={TODO_CATEGORY_ICON[category]}
+              onClick={changCategoryHandler}
+            />
+          </span>
+          <span>
+            <div>디데이</div>
+          </span>
+        </div>
         <div className="flex flex-col mt-2 w-full">
           <input
             type="text"
