@@ -21,8 +21,18 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
   const [dueDate, setDueDate] = useState(
     isNewTodoForm(children) ? "" : todo.dueDate
   );
+  const [isInValid, setIsInValid] = useState(false);
 
   const addOrUpdateTodoHandler = () => {
+    // 최종 검증: 입력 값이 모두 비어있지 않은지 확인
+    if (title === "" || summary === "" || startDate === "" || dueDate === "") {
+      setIsInValid(true); // 유효성 검사 실패
+      return; // 검증 실패 시 함수 종료
+    }
+
+    // 검증 통과 시 isInValid를 false로 설정
+    setIsInValid(false);
+
     if (isNewTodoForm(children)) {
       // Add 로직
       const newTodo = { title, summary, category, startDate, dueDate };

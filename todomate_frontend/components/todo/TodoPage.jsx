@@ -33,6 +33,7 @@ const dummyTodos = [
 
 export default function todo() {
   const [todos, setTodos] = useState(dummyTodos);
+
   const [selectedCategory, setFilter] = useState("ALL");
 
   // Todo 등록 기능, 파라미터로 새롭게 추가할 Todo 객체를 받음

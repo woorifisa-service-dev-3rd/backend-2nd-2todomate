@@ -24,18 +24,8 @@ const TodoItemV2 = ({
   const [dueDate, setDueDate] = useState(todo.dueDate);
   const [isInValid, setIsInValid] = useState(false);
 
-  // useEffect로 상태 값이 제대로 설정되는지 확인
-  useEffect(() => {
-    console.log("Todoitemv2");
-    console.log("Title: ", title);
-    console.log("Summary: ", summary);
-    console.log("Category: ", category);
-    console.log("StartDate: ", startDate);
-    console.log("DueDate: ", dueDate);
-  }, [title, summary, category, startDate, dueDate]);
-
   const updateHandler = () => {
-    if (title === "" || summary === "") {
+    if (title === "" || summary === "" || startDate === "" || dueDate === "") {
       setIsInValid(true);
       return;
     }
@@ -134,16 +124,20 @@ const TodoItemV2 = ({
             }}
           />
 
-          <input
-            type="date"
-            value={startDate}
-            onChange={(event) => setStartDate(event.target.value)}
-          />
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(event) => setDueDate(event.target.value)}
-          />
+          <div className="flex space-x-4">
+            <input
+              type="date"
+              className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
+              value={startDate}
+              onChange={(event) => setStartDate(event.target.value)}
+            />
+            <input
+              type="date"
+              className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
+              value={dueDate}
+              onChange={(event) => setDueDate(event.target.value)}
+            />
+          </div>
 
           {isInValid && (
             <div className="mt-2 text-red-500">

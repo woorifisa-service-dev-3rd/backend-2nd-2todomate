@@ -10,18 +10,24 @@ const dummyTodos = [
     title: "React 공부",
     summary: "React를 공부한다.",
     category: "TODO",
+    startDate: "2024-09-10",
+    dueDate: "2024-09-12",
   },
   {
     id: 2,
     title: "점심 먹기",
     summary: "점심을 먹는다.",
     category: "PROGRESS",
+    startDate: "2024-09-10",
+    dueDate: "2024-09-12",
   },
   {
     id: 3,
     title: "커피 마시기",
     summary: "커피를 마신다.",
     category: "DONE",
+    startDate: "2024-09-10",
+    dueDate: "2024-09-12",
   },
 ];
 
