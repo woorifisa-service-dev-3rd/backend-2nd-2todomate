@@ -31,14 +31,14 @@ public class UserController {
      *
      */
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody @Validated UserRequest userRequest) {
+    public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest) {
 
         System.out.println("login");
 
         // userService에서 아이디, 비밀번호 확인
         Long userId = userService.login(userRequest);
 
-        if(userId == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if(userId == null) return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("userId", userId.toString());
