@@ -12,7 +12,11 @@ import java.util.Optional;
  * 1. 스프링 컨텍스트에 빈으로 등록하기 위한 애노테이션 추가
  * 2. 생성자 자동 주입을 위한 애노테이션 추가
  */
+@Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
+
+    public final UserRepository userRepository;
 
     @Override
     public Long login(UserRequest userRequest) {
@@ -20,7 +24,9 @@ public class UserServiceImpl implements UserService{
         /**
          * userRepository에서 name과 password로 user 찾아오기
          */
-        Optional<User> findUser = userRepository
+        String username = userRequest.getUsername();
+        String password = userRequest.getPassword();
+        Optional<User> findUser = userRepository.findNameAndPassWord(username, password);
 
         // 해당하는 유저 정보가 없는 경우
         if(findUser.isEmpty()) { // 해당하는 유저 정보가 없는 경우 null 반환
@@ -30,7 +36,7 @@ public class UserServiceImpl implements UserService{
          * 해당 유저 정보가 있는 경우 findUser의 id 리턴
          */
         else {
-            return;
+            return findUser.get().getId();
         }
     }
 }

@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     /**
      * name과 password로 user 찾기
      */
+      Optional<User> findNameAndPassWord(String username, String password);
+
 }
