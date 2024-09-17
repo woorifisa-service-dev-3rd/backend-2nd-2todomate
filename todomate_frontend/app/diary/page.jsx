@@ -9,7 +9,7 @@ export default function diary() {
         <header>
           <div className="flex justify-center">
             <a to="/" className="flex">
-              <h1 className="py-8 text-red-200 max-w-max text-7xl">Diary</h1>
+              <h1 className="py-8 text-red-200 max-w-max text-7xl">Diaries</h1>
             </a>
           </div>
         </header>

@@ -23,7 +23,7 @@ const Header = ({ onAdd, category, onFilter }) => {
       router.push("/todo");
     }
   };
-  
+
   return (
     <div className="flex items-center justify-between mb-2" id="task-control">
       <div className="flex items-center justify-between space-x-4">
@@ -38,7 +38,7 @@ const Header = ({ onAdd, category, onFilter }) => {
           className="px-6 py-2 font-semibold text-gray-100 bg-gray-800 border-none rounded cursor-pointer"
           onClick={handleToggle}
         >
-          {pathname.startsWith("/todo") ? "Diary" : "todo"}
+          {pathname.startsWith("/todo") ? "Diary" : "Todo"}
         </div>
       </div>
       {/* Modal 호출 부분 */}
@@ -46,7 +46,7 @@ const Header = ({ onAdd, category, onFilter }) => {
         createPortal(
           <Modal onClose={closeModal}>
             <TodoForm onAdd={onAdd} onClose={closeModal}>
-              New Todo
+              {pathname.startsWith("/todo") ? "New Todo" : "New Diary"}
             </TodoForm>
           </Modal>,
           document.body

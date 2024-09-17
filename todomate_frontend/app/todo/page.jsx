@@ -69,7 +69,7 @@ export default function todo() {
         <header>
           <div className="flex justify-center">
             <a to="/" className="flex">
-              <h1 className="py-8 text-red-200 max-w-max text-7xl">todos</h1>
+              <h1 className="py-8 text-red-200 max-w-max text-7xl">Todos</h1>
             </a>
           </div>
         </header>
