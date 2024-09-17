@@ -1,8 +1,8 @@
 'use client'
 import { useState } from "react";
 import TodoBody from "@/components/todo/TodoBody";
-import TodoHeader from "@/components/todo/TodoHeader";
-import DefaultLayout from "@/components/todo/DefaultLayout";
+import Header from "@/components/common/Header";
+import DefaultLayout from "@/components/common/DefaultLayout";
 
 const dummyTodos = [
   {
@@ -74,7 +74,7 @@ export default function todo() {
           </div>
         </header>
         <section className="max-w-xl m-4 mx-auto">
-          <TodoHeader
+          <Header
             onAdd={addTodoHandler}
             category={selectedCategory}
             onFilter={setFilter}
