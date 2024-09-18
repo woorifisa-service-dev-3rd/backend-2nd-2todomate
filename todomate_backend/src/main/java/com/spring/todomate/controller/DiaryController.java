@@ -25,6 +25,9 @@ public class DiaryController {
 
     private Long getUserIdFromSession(HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            throw new IllegalArgumentException("userId doesn't exist");
+        }
         return userId;
     }
 
