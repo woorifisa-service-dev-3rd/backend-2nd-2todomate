@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import TodoItemV2 from "./TodoItemV2";
 
-const TodoBody = ({ todos, setTodos, onUpdate, onDelete }) => {
+const TodoBody = ({ todos, setTodos, onUpdate, onDelete, startPath }) => {
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
   const [dragging, setDragging] = useState(null);
@@ -40,6 +40,7 @@ const TodoBody = ({ todos, setTodos, onUpdate, onDelete }) => {
           onDragEnd={handleSort}
           onDragOver={(e) => e.preventDefault()} // 드래그 중인 항목이 다른 항목 위를 지나갈 때
           dragging={dragItem.current === index}
+          startPath={startPath}
         />
       ))}
     </ul>

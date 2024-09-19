@@ -19,7 +19,7 @@ export const addDiary = async ({ title, content }) => {
 
 // 다이어리 수정 (put, /api/diaries/{id})
 export const updateDiary = async ({ id, title, content }) => {
-  const response = await instance('diaries/${id}', {
+  const response = await instance(`diaries/${id}`, {
     body: JSON.stringify({ title, content }),
     method: 'PUT',
   });
@@ -28,7 +28,7 @@ export const updateDiary = async ({ id, title, content }) => {
 
 // 다이어리 삭제 (post, /api/diaries/{id})
 export const deleteDiary = async ({ id }) => {
-  const response = await instance('diaries/${id}', {
+  const response = await instance(`diaries/${id}`, {
     method: 'POST',
   });
   return response;

@@ -32,7 +32,6 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryResponses;
     }
 
-
     @Override
     public DiaryResponse addDiary(Long userId, DiaryRequest diaryRequest) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));

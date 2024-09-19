@@ -26,7 +26,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
   );
   const [isInValid, setIsInValid] = useState(false);
 
-  const addOrUpdateTodoHandler =  async () => {
+  const addOrUpdateTodoHandler = async () => {
 
     // 최종 검증: 입력 값이 모두 비어있지 않은지 확인 (diary면 title과 summary만 검증)
     if (title === "" || summary === "" || (pathname.startsWith("/todo") && (startDate === "" || dueDate === ""))) {
@@ -59,10 +59,10 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
     // api 사용하도록 변경
     else if (pathname.startsWith("/diary")) {
       if (isNewTodoForm(children)) {
-        await addDiary({ title, content : summary });
+        await addDiary({ title, content: summary });
       } else {
-        await updateDiary({ id : todo.id , title, content: summary });
-      } 
+        await updateDiary({ id: todo.id, title, content: summary });
+      }
     }
     onClose();
   };
@@ -95,7 +95,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
             onChange={(event) => setSummary(event.target.value)}
           />
         </div>
-        
+
         {/* 투두 폼일 때만 카테고리, 날짜 필드 표시 */}
         {pathname.startsWith("/todo") && (
           <>
