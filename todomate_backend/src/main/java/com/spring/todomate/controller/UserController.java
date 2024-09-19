@@ -1,6 +1,5 @@
 package com.spring.todomate.controller;
 
-
 import com.spring.todomate.dto.UserRequest;
 import com.spring.todomate.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest, HttpSession session) {
 
         System.out.println("userRequest = " + userRequest);
-        
+
         // userService에서 아이디, 비밀번호 확인
         Long userId = userService.login(userRequest);
 

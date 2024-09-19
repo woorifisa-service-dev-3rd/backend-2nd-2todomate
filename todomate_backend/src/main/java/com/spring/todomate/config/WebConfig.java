@@ -1,18 +1,23 @@
 package com.spring.todomate.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig{
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // 허용할 출처
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH") // 허용할 HTTP method
-                .allowCredentials(true) // 쿠키 인증 요청 허용
-                .maxAge(3000); // 원하는 시간만큼 pre-flight 리퀘스트를 캐싱
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000"); // Access-Control-Allow-Origin  (Response에 자동으로 추가해줌)
+        config.addAllowedHeader("*");  // Access-Control-Request-Headers
+        config.addAllowedMethod("*"); // Access-Control-Request-Method
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
