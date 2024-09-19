@@ -25,7 +25,7 @@ const TodoItemV2 = ({
   const [isInValid, setIsInValid] = useState(false);
 
   const updateHandler = () => {
-    if (title === "" || (isTodo && content === "" && startDate === "" && dueDate === "")) {
+    if (title === "" || (isTodo && (content === "" && startDate === "" && dueDate === ""))) {
       setIsInValid(true);
       return;
     }
@@ -36,7 +36,7 @@ const TodoItemV2 = ({
     const updateItem = {
       id: todo.id,
       title,
-      ...(isTodo && { summary: content, option, startDate, dueDate }),  // todo일 때만 나머지 필드 포함
+      ...(isTodo && { summary : content, option, startDate, dueDate }),  // todo일 때만 나머지 필드 포함
       ...(!isTodo && { content })  // diary일 때 content만 포함
     };
 

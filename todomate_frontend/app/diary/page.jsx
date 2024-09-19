@@ -37,16 +37,22 @@ export default function DiaryPage() {
   };
 
   // Diary 수정 기능, 파라미터로 업데이트할 Diary 객체를 받음
-  const updateDiaryHandler = async (updateDiary) => {
+  const updateDiaryHandler = async (id, title, content) => {
     try {
-      await updateDiary(updateDiary);
-      const updatedDiaries = diaries.map((diary) =>
-      diary.id === updateDiary.id ? updateDiary : diary);
-      setDiaries(updatedDiaries);
+      console.log(id, title, content);
+      await updateDiary({ id, title, content });
+      const updatedDiary = diaries.find(diary => diary.id === id);
+      if (updatedDiary) {
+        updatedDiary.title = title;
+        updatedDiary.content = content;
+
+        setDiaries([...diaries]);
+      }
     } catch (error) {
       console.error("Failed to update diary:", error);
     }
   };
+  
 
   // Diary 삭제 기능
   const deleteDiaryHandler = async (id) => {
