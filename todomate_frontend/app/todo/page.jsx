@@ -1,39 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import TodoBody from "@/components/todo/TodoBody";
 import Header from "@/components/common/Header";
 import DefaultLayout from "@/components/common/DefaultLayout";
+import { getTodos } from "@/api/todoApi";
 
-const dummyTodos = [
-  {
-    id: 1,
-    title: "React 공부",
-    summary: "React를 공부한다.",
-    category: "TODO",
-    startDate: "2024-09-10",
-    dueDate: "2024-09-12",
-  },
-  {
-    id: 2,
-    title: "점심 먹기",
-    summary: "점심을 먹는다.",
-    category: "PROGRESS",
-    startDate: "2024-09-10",
-    dueDate: "2024-09-12",
-  },
-  {
-    id: 3,
-    title: "커피 마시기",
-    summary: "커피를 마신다.",
-    category: "DONE",
-    startDate: "2024-09-10",
-    dueDate: "2024-09-12",
-  },
-];
+
 
 export default function todo() {
-  const [todos, setTodos] = useState(dummyTodos);
+  const [todos, setTodos] = useState([]);
   const [selectedCategory, setFilter] = useState("ALL");
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        const data = await getTodos();
+        setTodos(data.todos); // 실제 데이터 구조에 맞게 조정
+      } catch (error) {
+        console.error("Failed to fetch todos:", error);
+      }
+    };
+
+    loadTodos();
+  }, []); 
 
   // Todo 등록 기능, 파라미터로 새롭게 추가할 Todo 객체를 받음
   const addTodoHandler = ({ title, summary, category, startDate, dueDate }) => {

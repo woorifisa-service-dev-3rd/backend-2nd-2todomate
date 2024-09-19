@@ -3,7 +3,7 @@
 import { createPortal } from "react-dom";
 import TodoFilter from "../todo/TodoFilter";
 import Modal from "@/components/ui/Modal";
-import TodoForm from "../todo/TodoForm";
+import TodoForm from "./AddForm";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
