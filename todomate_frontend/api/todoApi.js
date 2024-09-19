@@ -5,7 +5,6 @@ export const getTodos = async () => {
     const response = await instance('todos/list', {
         method: 'GET',
     });
-    console.log(response);
     
     return response;
 }
