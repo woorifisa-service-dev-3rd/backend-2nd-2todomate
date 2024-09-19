@@ -35,22 +35,24 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
       return; // 검증 실패 시 함수 종료
     }
 
+    // 검증 통과 시 isInValid를 false로 설정
+    setIsInValid(false);
+
+    // api 사용하도록 변경
     if (pathname.startsWith("/todo")) {
       if (isNewTodoForm(children)) {
         // Add 로직
-        const newTodo = { title, summary, option, startDate, dueDate };
-        onAdd(newTodo);
+        await addTodo({ title, summary, option, startDate, dueDate });
       } else {
         // Update 로직
-        const updateTodo = {
+        await updateTodo({
           id: todo.id,
           title, // title: title과 같음
           summary,
           option,
           startDate,
           dueDate,
-        };
-        onUpdate(updateTodo);
+        });
       }
     }
 
