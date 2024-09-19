@@ -1,9 +1,9 @@
 package com.spring.todomate.model;
 
 public enum Option {
-    TO_DO("To Do"),
-    ON_PROGRESS("On Progress"),
-    DONE("Done");
+    TODO("TODO"),
+    PROGRESS("PROGRESS"),
+    DONE("DONE");
 
     private final String option;
 
@@ -11,7 +11,8 @@ public enum Option {
         this.option = option;
     }
 
-    public String option() {
+    @Override
+    public String toString() {
         return option;
     }
 }
