@@ -84,6 +84,7 @@ export default function todo() {
             setTodos={setTodos}
             onUpdate={updateTodoHandler}
             onDelete={deleteTodoHandler}
+            startPath="/todo"
           />
         </section>
       </DefaultLayout>
