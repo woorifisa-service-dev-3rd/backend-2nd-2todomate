@@ -41,7 +41,7 @@ public class UserController {
         if(userId == null) return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
 
         session.setAttribute("userId", userId);
-        System.out.println("로그인 성공, userId" + session.getAttribute("userId"));
+        System.out.println("로그인 성공");
         return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
     }
 }
