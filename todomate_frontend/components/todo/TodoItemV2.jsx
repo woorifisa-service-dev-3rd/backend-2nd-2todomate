@@ -22,10 +22,20 @@ const TodoItemV2 = ({
   const [option, setOption] = useState(isTodo ? todo.option : "");
   const [startDate, setStartDate] = useState(isTodo ? todo.startDate : "");
   const [dueDate, setDueDate] = useState(isTodo ? todo.dueDate : "");
+  const [date, setDate] = useState(!isTodo ? todo.date : ""); // diary일 때만 date 사용
   const [isInValid, setIsInValid] = useState(false);
 
+  const calculateDaysUntilDue = (startDate, dueDate) => {
+    if (!startDate || !dueDate) return null; // 날짜가 없으면 null 반환
+    const start = new Date(startDate);
+    const due = new Date(dueDate);
+    const diffTime = due - start;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays;
+  }
+
   const updateHandler = () => {
-    if (title === "" || (isTodo && (content === "" && startDate === "" && dueDate === ""))) {
+    if (title === "" || (isTodo && content === "" && startDate === "" && dueDate === "")) {
       setIsInValid(true);
       return;
     }
@@ -36,8 +46,8 @@ const TodoItemV2 = ({
     const updateItem = {
       id: todo.id,
       title,
-      ...(isTodo && { summary : content, option, startDate, dueDate }),  // todo일 때만 나머지 필드 포함
-      ...(!isTodo && { content })  // diary일 때 content만 포함
+      ...(isTodo && { summary: content, option, startDate, dueDate }),  // todo일 때만 나머지 필드 포함
+      ...(!isTodo && { content, date })  // diary일 때 content와 date 포함
     };
 
     onUpdate(updateItem);
@@ -49,6 +59,8 @@ const TodoItemV2 = ({
     if (isTodo) {
       setStartDate(todo.startDate);
       setDueDate(todo.dueDate);
+    } else {
+      setDate(todo.date);
     }
     setIsUpdateMode(false);
     setIsInValid(false);
@@ -58,15 +70,15 @@ const TodoItemV2 = ({
     if (
       title !== todo.title ||
       (isTodo && (content !== todo.summary || startDate !== todo.startDate || dueDate !== todo.dueDate)) ||
-      (!isTodo && content !== todo.content)
+      (!isTodo && (content !== todo.content || date !== todo.date))
     ) {
       setIsUpdateMode(true);
     }
 
-    if (title !== "" && (isTodo ? content !== "" && startDate !== "" && dueDate !== "" : content !== "")) {
+    if (title !== "" && (isTodo ? content !== "" && startDate !== "" && dueDate !== "" : content !== "" && date !== "")) {
       setIsInValid(false);
     }
-  }, [title, content, startDate, dueDate]);
+  }, [title, content, startDate, dueDate, date]);
 
   return (
     <li
@@ -79,7 +91,7 @@ const TodoItemV2 = ({
       onDragOver={onDragOver}
     >
       <div className="w-4/5">
-        <div className="flex space-x-4">
+        <div className="flex items-center space-x-4">
           <span className="text-lg font-medium text-gray-300">
             {isTodo && (
               <IconButton
@@ -93,7 +105,9 @@ const TodoItemV2 = ({
             )}
           </span>
           <span>
-            <div>디데이</div>
+            {isTodo && startDate && dueDate && (
+              <span className="flex text-sm text-gray-300">{calculateDaysUntilDue(startDate, dueDate) === 0 ? 'D-' : `${calculateDaysUntilDue(startDate, dueDate)}`}day</span>
+            )}
           </span>
         </div>
         <div className="flex flex-col mt-2 w-full">
@@ -134,13 +148,18 @@ const TodoItemV2 = ({
               </div>
             </>
           ) : (
-            <textarea
-              value={content}
-              className="text-base text-gray-200 bg-transparent pt-2 pb-2 resize-none"
-              rows={3}
-              maxLength={200}
-              onChange={(event) => setContent(event.target.value)}
-            />
+            <div className="flex flex-col">
+              {!isTodo && date && ( // diary일 때만 date 표시
+                <span className="text-sm text-gray-300 mb-1">{date}</span>
+              )}
+              <textarea
+                value={content}
+                className="text-base text-gray-200 bg-transparent pt-2 pb-2 resize-none"
+                rows={3}
+                maxLength={200}
+                onChange={(event) => setContent(event.target.value)}
+              />
+            </div>
           )}
 
           {isInValid && (
