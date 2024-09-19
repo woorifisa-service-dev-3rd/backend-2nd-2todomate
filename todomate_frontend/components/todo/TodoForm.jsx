@@ -56,6 +56,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
       }
     }
 
+    // api 사용하도록 변경
     else if (pathname.startsWith("/diary")) {
       if (isNewTodoForm(children)) {
         await addDiary({ title, content : summary });
