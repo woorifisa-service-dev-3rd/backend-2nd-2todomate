@@ -9,13 +9,16 @@ import { getTodos } from "@/api/todoApi";
 
 export default function todo() {
   const [todos, setTodos] = useState([]);
-  const [selectedCategory, setFilter] = useState("ALL");
+  const [selectedoption, setFilter] = useState("ALL");
 
   useEffect(() => {
     const loadTodos = async () => {
       try {
         const data = await getTodos();
-        setTodos(data.todos); // 실제 데이터 구조에 맞게 조정
+        console.log(data);
+        
+        setTodos(data); 
+        // 실제 데이터 구조에 맞게 조정
       } catch (error) {
         console.error("Failed to fetch todos:", error);
       }

@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 const fetchInstance = async (url, options = {}) => {
   // 세션에서 사용자 정보를 가져옵니다.
 //   const userId = session().get('userId'); 
+const session = cookies().get('JSESSIONID');
 
   const headers = {
     'Content-Type': 'application/json',

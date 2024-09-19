@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { TODO_CATEGORY_ICON } from "@/constants/icon";
+import { TODO_option_ICON } from "@/constants/icon";
 import { addDiary, updateDiary } from "@/api/diaryApi";
 import { usePathname } from "next/navigation";
 
@@ -15,8 +15,8 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
   const [summary, setSummary] = useState(
     isNewTodoForm(children) ? "" : todo.summary
   );
-  const [category, setCategory] = useState(
-    isNewTodoForm(children) ? "TODO" : todo.category
+  const [option, setoption] = useState(
+    isNewTodoForm(children) ? "TODO" : todo.option
   );
   const [startDate, setStartDate] = useState(
     isNewTodoForm(children) ? "" : todo.startDate
@@ -40,7 +40,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
     if (pathname.startsWith("/todo")) {
       if (isNewTodoForm(children)) {
         // Add 로직
-        const newTodo = { title, summary, category, startDate, dueDate };
+        const newTodo = { title, summary, option, startDate, dueDate };
         onAdd(newTodo);
       } else {
         // Update 로직
@@ -48,7 +48,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
           id: todo.id,
           title, // title: title과 같음
           summary,
-          category,
+          option,
           startDate,
           dueDate,
         };
@@ -100,18 +100,18 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
         {pathname.startsWith("/todo") && (
           <>
             <div>
-              <label className="block mb-2 text-xl text-white" htmlFor="category">
-                Category
+              <label className="block mb-2 text-xl text-white" htmlFor="option">
+                option
               </label>
               <select
                 className="w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
-                id="category"
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
+                id="option"
+                value={option}
+                onChange={(event) => setoption(event.target.value)}
               >
-                <option value="TODO">{TODO_CATEGORY_ICON.TODO} To do</option>
-                <option value="PROGRESS">{TODO_CATEGORY_ICON.PROGRESS} On progress</option>
-                <option value="DONE">{TODO_CATEGORY_ICON.DONE} Done</option>
+                <option value="TODO">{TODO_option_ICON.TODO} To do</option>
+                <option value="PROGRESS">{TODO_option_ICON.PROGRESS} On progress</option>
+                <option value="DONE">{TODO_option_ICON.DONE} Done</option>
               </select>
             </div>
             <div>
