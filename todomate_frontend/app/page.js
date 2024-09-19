@@ -11,7 +11,7 @@ export default function Page() {
   const handleLogin = async (credentials) => {
     const { username, password } = credentials;
     const response = await postUserData({ username, password });
-    console.log('response',response);
+    console.log('response', response);
 
     if (response.error) {
       alert('로그인 실패');
@@ -20,7 +20,6 @@ export default function Page() {
       router.push('/todo');
     }
   };
-
 
   return (
     <div className="min-h-screen bg-slate-500 flex items-center justify-center">

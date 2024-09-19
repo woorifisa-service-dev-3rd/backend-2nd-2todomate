@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -31,23 +32,17 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Validated UserRequest userRequest, HttpSession session) {
-        try {
-            System.out.println("userRequest = " + userRequest);
 
-            // userService에서 아이디, 비밀번호 확인
-            Long userId = userService.login(userRequest);
+        System.out.println("userRequest = " + userRequest);
+        
+        // userService에서 아이디, 비밀번호 확인
+        Long userId = userService.login(userRequest);
 
-            if (userId == null) {
-                System.out.println("로그인 실패: 아이디와 비밀번호를 확인해주세요.");
-                return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
-            }
-            session.setAttribute("userId", userId);
-            System.out.println("로그인 성공, userId = " + userId);
-            return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
-        } catch (Exception e) {
-            // 예외 처리
-            System.err.println("로그인 중 오류 발생: " + e.getMessage());
-            return new ResponseEntity<>("서버 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        if(userId == null) return new ResponseEntity<>("아이디와 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
+
+        session.setAttribute("userId", userId);
+        System.out.println("로그인 성공, userId" + session.getAttribute("userId"));
+        System.out.println("session = " + session.getId());
+        return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
     }
 }
