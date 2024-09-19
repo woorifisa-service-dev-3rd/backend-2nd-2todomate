@@ -24,6 +24,15 @@ const TodoItemV2 = ({
   const [dueDate, setDueDate] = useState(isTodo ? todo.dueDate : "");
   const [isInValid, setIsInValid] = useState(false);
 
+  const calculateDaysUntilDue = (startDate, dueDate) => {
+    if (!startDate || !dueDate) return null; // 날짜가 없으면 null 반환
+    const start = new Date(startDate);
+    const due = new Date(dueDate);
+    const diffTime = due - start;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays;
+  }
+
   const updateHandler = () => {
     if (title === "" || (isTodo && content === "" && startDate === "" && dueDate === "")) {
       setIsInValid(true);
@@ -79,7 +88,7 @@ const TodoItemV2 = ({
       onDragOver={onDragOver}
     >
       <div className="w-4/5">
-        <div className="flex space-x-4">
+        <div className="flex items-center space-x-4">
           <span className="text-lg font-medium text-gray-300">
             {isTodo && (
               <IconButton
@@ -93,7 +102,9 @@ const TodoItemV2 = ({
             )}
           </span>
           <span>
-            <div>디데이</div>
+            {isTodo && startDate && dueDate && (
+              <span className="flex text-sm text-gray-300">{calculateDaysUntilDue(startDate, dueDate) === 0 ? 'D-' : `${calculateDaysUntilDue(startDate, dueDate)}`}day</span>
+            )}
           </span>
         </div>
         <div className="flex flex-col mt-2 w-full">
