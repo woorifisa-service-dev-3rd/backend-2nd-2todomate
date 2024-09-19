@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import TodoBody from "@/components/todo/TodoBody";
-import Header from "@/components/common/Header";
-import DefaultLayout from "@/components/common/DefaultLayout";
+import TodoBody from "./TodoBody";
+import TodoHeader from "./TodoHeader";
+import DefaultLayout from "./DefaultLayout";
 
 const dummyTodos = [
   {
@@ -33,6 +33,7 @@ const dummyTodos = [
 
 export default function todo() {
   const [todos, setTodos] = useState(dummyTodos);
+
   const [selectedCategory, setFilter] = useState("ALL");
 
   // Todo 등록 기능, 파라미터로 새롭게 추가할 Todo 객체를 받음
@@ -77,12 +78,12 @@ export default function todo() {
         <header>
           <div className="flex justify-center">
             <a to="/" className="flex">
-              <h1 className="py-8 text-red-200 max-w-max text-7xl">Todos</h1>
+              <h1 className="py-8 text-red-200 max-w-max text-7xl">todos</h1>
             </a>
           </div>
         </header>
         <section className="max-w-xl m-4 mx-auto">
-          <Header
+          <TodoHeader
             onAdd={addTodoHandler}
             category={selectedCategory}
             onFilter={setFilter}

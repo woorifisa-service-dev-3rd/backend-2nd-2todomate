@@ -8,5 +8,3 @@ export const postUserData = async({ username, password }) => {
     });
     return response;
 }
-
-

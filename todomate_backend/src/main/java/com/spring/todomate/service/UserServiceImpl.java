@@ -1,19 +1,26 @@
 package com.spring.todomate.service;
 
 import com.spring.todomate.dto.UserRequest;
-import com.spring.todomate.dto.UserResponse;
 import com.spring.todomate.model.User;
 import com.spring.todomate.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+
+    @Override
+    public User findById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.orElseThrow(() -> new RuntimeException("런타임 에러"));
+    }
 
     @Override
     public Long login(UserRequest userRequest) {
