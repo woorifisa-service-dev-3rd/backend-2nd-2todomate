@@ -1,4 +1,5 @@
 import DefaultLayout from '@/components/common/DefaultLayout'
+import TodoBody from "@/components/todo/TodoBody";
 import Header from '@/components/common/Header'
 import React from 'react'
 
@@ -15,6 +16,12 @@ export default function diary() {
         </header>
         <section>
            <Header/>
+           {/* <TodoBody
+    
+            setTodos={setTodos}
+            onUpdate={updateTodoHandler}
+            onDelete={deleteTodoHandler}
+          /> */}
         </section>
       </DefaultLayout>
     </div>

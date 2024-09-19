@@ -24,7 +24,7 @@ const TodoBody = ({ todos, setTodos, onUpdate, onDelete }) => {
 
   return (
     <ul className="px-0 my-8">
-      {todos.map((todo, index) => (
+      {todos && todos.map((todo, index) => (
         <TodoItemV2
           todo={todo}
           key={todo.id}
