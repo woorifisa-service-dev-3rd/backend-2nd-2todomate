@@ -1,8 +1,7 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import IconButton from "@/components/ui/IconButton";
 import { TODO_CATEGORY_ICON } from "@/constants/icon";
-
 
 const TodoItemV2 = ({
   todo,
@@ -21,10 +20,12 @@ const TodoItemV2 = ({
   const [title, setTitle] = useState(todo.title);
   const [summary, setSummary] = useState(todo.summary);
   const [category, setCategory] = useState(todo.category);
+  const [startDate, setStartDate] = useState(todo.startDate);
+  const [dueDate, setDueDate] = useState(todo.dueDate);
   const [isInValid, setIsInValid] = useState(false);
 
   const updateHandler = () => {
-    if (title === "" || summary === "") {
+    if (title === "" || summary === "" || startDate === "" || dueDate === "") {
       setIsInValid(true);
       return;
     }
@@ -37,6 +38,8 @@ const TodoItemV2 = ({
       title,
       summary,
       category,
+      startDate,
+      dueDate,
     };
     onUpdate(updateTodo);
   };
@@ -44,6 +47,8 @@ const TodoItemV2 = ({
   const backHandler = () => {
     setTitle(todo.title);
     setSummary(todo.summary);
+    setStartDate(todo.startDate);
+    setDueDate(todo.dueDate);
     setIsUpdateMode(false);
     setIsInValid(false);
   };
@@ -55,14 +60,19 @@ const TodoItemV2 = ({
   };
 
   useEffect(() => {
-    if (title !== todo.title || summary !== todo.summary) {
+    if (
+      title !== todo.title ||
+      summary !== todo.summary ||
+      startDate !== todo.startDate ||
+      dueDate !== todo.dueDate
+    ) {
       setIsUpdateMode(true);
     }
 
-    if (title !== "" && summary !== "") {
+    if (title !== "" && summary !== "" && startDate !== "" && dueDate !== "") {
       setIsInValid(false);
     }
-  }, [title, summary]);
+  }, [title, summary, startDate, dueDate]);
 
   useEffect(() => {
     updateHandler();
@@ -80,13 +90,18 @@ const TodoItemV2 = ({
       onDragOver={onDragOver}
     >
       <div className="w-4/5">
-        <span className="text-lg font-medium text-gray-300">
-          {/* {TODO_CATEGORY_ICON[todo.category]} */}
-          <IconButton
-            icon={TODO_CATEGORY_ICON[category]}
-            onClick={changCategoryHandler}
-          />
-        </span>
+        <div className="flex space-x-4">
+          <span className="text-lg font-medium text-gray-300">
+            {/* {TODO_CATEGORY_ICON[todo.category]} */}
+            <IconButton
+              icon={TODO_CATEGORY_ICON[category]}
+              onClick={changCategoryHandler}
+            />
+          </span>
+          <span>
+            <div>디데이</div>
+          </span>
+        </div>
         <div className="flex flex-col mt-2 w-full">
           <input
             type="text"
@@ -113,6 +128,22 @@ const TodoItemV2 = ({
               event.target.style.height = `${event.target.scrollHeight}px`; // 내용에 따라 높이를 설정
             }}
           />
+
+          <div className="flex space-x-4">
+            <input
+              type="date"
+              className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
+              value={startDate}
+              onChange={(event) => setStartDate(event.target.value)}
+            />
+            <input
+              type="date"
+              className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
+              value={dueDate}
+              onChange={(event) => setDueDate(event.target.value)}
+            />
+          </div>
+
           {isInValid && (
             <div className="mt-2 text-red-500">
               모든 항목을 채워서 작성해주세요
