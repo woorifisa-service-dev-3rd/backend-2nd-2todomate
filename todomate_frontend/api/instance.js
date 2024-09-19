@@ -5,18 +5,18 @@ import { BASE_URL } from '@/constants/url';
 
 const fetchInstance = async (url, options = {}) => {
   // 세션에서 사용자 정보를 가져옵니다.
-//   const userId = session().get('userId'); 
+  //   const userId = session().get('userId'); 
 
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
   };
 
-//   // 사용자 정보가 있는 경우에만 요청을 보냄
-//   if (userId) {
-//     // 필요한 경우 사용자 정보를 헤더에 추가할 수 있습니다.
-//     headers['X-User-Id'] = userId; 
-//   }
+  //   // 사용자 정보가 있는 경우에만 요청을 보냄
+  //   if (userId) {
+  //     // 필요한 경우 사용자 정보를 헤더에 추가할 수 있습니다.
+  //     headers['X-User-Id'] = userId; 
+  //   }
 
   try {
     const response = await fetch(`${BASE_URL}${url}`, {
@@ -24,7 +24,7 @@ const fetchInstance = async (url, options = {}) => {
       headers,
     });
 
-    
+
 
     if (!response.ok) {
       if (response.headers.get('Content-Type')?.includes('application/json')) {
@@ -32,7 +32,7 @@ const fetchInstance = async (url, options = {}) => {
         return { error: errorResponse };
       }
       else {
-        return { error: await response.text()};
+        return { error: await response.text() };
       }
     }
 

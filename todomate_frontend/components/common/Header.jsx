@@ -8,12 +8,12 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 // 함수형 컴포넌트(Header)
-const Header = ({ onAdd, category, onFilter }) => {
+const Header = ({ onAdd, option, onFilter }) => {
   const [openModal, open] = useState(false);
 
   const closeModal = () => open(false);
- const pathname = usePathname();
- const router = useRouter();
+  const pathname = usePathname();
+  const router = useRouter();
 
 
   const handleToggle = () => {
@@ -51,7 +51,7 @@ const Header = ({ onAdd, category, onFilter }) => {
           </Modal>,
           document.body
         )}
-      <TodoFilter category={category} onFilter={onFilter} />
+      <TodoFilter option={option} onFilter={onFilter} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import IconButton from "@/components/ui/IconButton";
-import { TODO_CATEGORY_ICON } from "@/constants/icon";
+import { TODO_option_ICON } from "@/constants/icon";
 
 const TodoItemV2 = ({
   todo,
@@ -19,7 +19,7 @@ const TodoItemV2 = ({
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [summary, setSummary] = useState(todo.summary);
-  const [category, setCategory] = useState(todo.category);
+  const [option, setoption] = useState(todo.option);
   const [startDate, setStartDate] = useState(todo.startDate);
   const [dueDate, setDueDate] = useState(todo.dueDate);
   const [isInValid, setIsInValid] = useState(false);
@@ -37,7 +37,7 @@ const TodoItemV2 = ({
       id: todo.id,
       title,
       summary,
-      category,
+      option,
       startDate,
       dueDate,
     };
@@ -53,10 +53,10 @@ const TodoItemV2 = ({
     setIsInValid(false);
   };
 
-  const changCategoryHandler = () => {
-    if (category === "TODO") setCategory("PROGRESS");
-    else if (category === "PROGRESS") setCategory("DONE");
-    else setCategory("TODO");
+  const changoptionHandler = () => {
+    if (option === "TODO") setoption("PROGRESS");
+    else if (option === "PROGRESS") setoption("DONE");
+    else setoption("TODO");
   };
 
   useEffect(() => {
@@ -76,13 +76,12 @@ const TodoItemV2 = ({
 
   useEffect(() => {
     updateHandler();
-  }, [category]);
+  }, [option]);
 
   return (
     <li
-      className={`flex gap-4 justify-between my-4 py-4 px-4 border-[1px] bg-gray-700 rounded-md shadow-xl h-auto cursor-pointer ${
-        dragging ? "shadow-white shadow-lg" : ""
-      }`}
+      className={`flex gap-4 justify-between my-4 py-4 px-4 border-[1px] bg-gray-700 rounded-md shadow-xl h-auto cursor-pointer ${dragging ? "shadow-white shadow-lg" : ""
+        }`}
       draggable={draggable}
       onDragStart={onDragStart}
       onDragEnter={onDragEnter}
@@ -92,10 +91,10 @@ const TodoItemV2 = ({
       <div className="w-4/5">
         <div className="flex space-x-4">
           <span className="text-lg font-medium text-gray-300">
-            {/* {TODO_CATEGORY_ICON[todo.category]} */}
+            {/* {TODO_option_ICON[todo.option]} */}
             <IconButton
-              icon={TODO_CATEGORY_ICON[category]}
-              onClick={changCategoryHandler}
+              icon={TODO_option_ICON[option]}
+              onClick={changoptionHandler}
             />
           </span>
           <span>
