@@ -1,4 +1,4 @@
-export const TODO_CATEGORY_ICON = {
+export const TODO_option_ICON = {
     TODO: '📑',
     PROGRESS: '👀',
     DONE: '😀',

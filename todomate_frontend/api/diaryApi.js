@@ -1,7 +1,7 @@
 import { instance } from './instance';
 
 // 모든 다이어리 조회 (get, /api/diaries/list)
-export const getDiaries = async() => {
+export const getDiaries = async () => {
   const response = await instance('diaries/list', {
     method: 'GET',
   });

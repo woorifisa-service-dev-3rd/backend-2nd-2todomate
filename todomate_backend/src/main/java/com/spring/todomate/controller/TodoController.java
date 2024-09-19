@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -26,12 +27,14 @@ public class TodoController {
     private final UserService userService;
 
     // TODO: response를 사용하여 클라이언트에게 응답하고, 새로운 todo를 생성할 때는 request를 받아 처리한다
-    // TODO: log - AOP로 뺴자
 
     // 세션
     private Long getUserIdFromSession (HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
-        return 1L; // 원래는 userId인데, 테스트용으로 userId 1L 값을 넣어둠
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return userId;
     }
 
     @GetMapping("/list")
@@ -46,6 +49,7 @@ public class TodoController {
     @PostMapping("/add")
     public ResponseEntity<TodoResponse> addTodo(HttpSession session, @RequestBody TodoRequest todoRequest) {
         log.info("addTodo()..."); // AOP
+        System.out.println("todoRequest = " + todoRequest.getOption());
         Long userId = getUserIdFromSession(session);
         TodoResponse todoResponse = todoService.addTodoDetails(userId, todoRequest);
         return new ResponseEntity<>(todoResponse, HttpStatus.CREATED);

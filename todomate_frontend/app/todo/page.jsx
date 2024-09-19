@@ -25,13 +25,13 @@ export default function todo() {
   }, []); 
 
   // Todo 등록 기능, 파라미터로 새롭게 추가할 Todo 객체를 받음
-  const addTodoHandler = ({ title, summary, category, startDate, dueDate }) => {
+  const addTodoHandler = ({ title, summary, option, startDate, dueDate }) => {
     // id값을 추가해서 Todo 등록
     const newTodo = {
       id: self.crypto.randomUUID(), // Web Crypto API
       title,
       summary,
-      category,
+      option,
       startDate,
       dueDate,
     };
@@ -54,9 +54,9 @@ export default function todo() {
 
   // Todo 필터링 기능
   const filterTodos = () =>
-    selectedCategory === "ALL"
+    selectedoption === "ALL"
       ? todos
-      : todos.filter((todo) => todo.category === selectedCategory);
+      : todos.filter((todo) => todo.option === selectedoption);
   // 필터링된 Todo 리스트(배열)
   const filteredTodos = filterTodos();
 
@@ -73,7 +73,7 @@ export default function todo() {
         <section className="max-w-xl m-4 mx-auto">
           <Header
             onAdd={addTodoHandler}
-            category={selectedCategory}
+            option={selectedoption}
             onFilter={setFilter}
           />
           <TodoBody

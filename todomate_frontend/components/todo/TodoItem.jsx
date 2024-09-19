@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import IconButton from "@/components/ui/IconButton";
-import { TODO_CATEGORY_ICON } from "@/constants/icon";
+import { TODO_option_ICON } from "@/constants/icon";
 import Modal from "@/components/ui/Modal";
 import TodoForm from "../common/AddForm";
 import { createPortal } from "react-dom";
@@ -14,7 +14,7 @@ const TodoItem = ({ todo, onAdd, onUpdate, onDelete }) => {
     <li className="flex gap-4 justify-between my-4 py-4 px-4 border-[1px] bg-gray-700 rounded-md shadow-xl">
       <div>
         <span className="text-lg font-medium text-gray-300">
-          {TODO_CATEGORY_ICON[todo.category]}
+          {TODO_option_ICON[todo.option]}
         </span>
         <div>
           <h2

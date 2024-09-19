@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { instance } from './instance';
 
 // 로그인 데이터 보내기 
-export const postUserData = async({ username, password }) => {
+export const postUserData = async ({ username, password }) => {
     const response = await instance('users/login', {
         body: JSON.stringify({ username, password }),
         method: 'POST',
@@ -16,9 +16,9 @@ export const postUserData = async({ username, password }) => {
 
     cookies().set('JSESSIONID', cookie, {
         path: '/',
-      maxAge: 60 * 60 * 24 * 31,
-      sameSite: 'lax',
-      httpOnly: true,
+        maxAge: 60 * 60 * 24 * 31,
+        sameSite: 'lax',
+        httpOnly: true,
     })
     return response;
 }

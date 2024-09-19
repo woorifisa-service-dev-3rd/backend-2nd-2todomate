@@ -29,7 +29,7 @@ public class TodoResponse {
                 .id(todo.getId())
                 .title(todo.getTitle())
                 .summary(todo.getSummary())
-                .option(String.valueOf(todo.getOption()))
+                .option(todo.getOption().name())
                 .startDate(todo.getStartDate())
                 .dueDate(todo.getDueDate())
                 .dayUntilDue(ChronoUnit.DAYS.between(todo.getStartDate(), todo.getDueDate()))
