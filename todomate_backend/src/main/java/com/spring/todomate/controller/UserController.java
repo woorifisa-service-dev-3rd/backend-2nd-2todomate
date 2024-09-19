@@ -42,6 +42,7 @@ public class UserController {
 
         session.setAttribute("userId", userId);
         System.out.println("로그인 성공, userId" + session.getAttribute("userId"));
+        System.out.println("session = " + session.getId());
         return new ResponseEntity<>("로그인 성공!", HttpStatus.OK);
     }
 }

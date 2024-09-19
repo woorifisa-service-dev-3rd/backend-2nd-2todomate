@@ -52,6 +52,7 @@ public class DiaryController {
         Long userId = getUserIdFromSession(session);
         DiaryResponse addedDiary = diaryService.addDiary(userId, diaryRequest);
         log.info("addedDiary = " + addedDiary);
+        System.out.println("session = " + session.getId());
         return new ResponseEntity<>(addedDiary, HttpStatus.CREATED);
     }
 
