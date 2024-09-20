@@ -7,6 +7,7 @@ import { getTodos, updateTodo, deleteTodo, addTodo } from "@/api/todoApi";
 
 export default function TodoPage() {
   const [todos, setTodos] = useState([]);
+  console.log(todos);
   const [selectedoption, setFilter] = useState("ALL");
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function TodoPage() {
     // id값을 추가해서 Todo 등록
     try {
       const newTodo = {
-        id: self.crypto.randomUUID(), // Web Crypto API
+        // id: self.crypto.randomUUID(), // Web Crypto API
         title,
         summary,
         option,
@@ -36,6 +37,8 @@ export default function TodoPage() {
       };
       const response = await addTodo(newTodo);
       setTodos([...todos, response]);
+     
+      
     } catch (error) {
       console.error("Failed to add todo:", error);
     }

@@ -25,7 +25,6 @@ export default function DiaryPage() {
   const addDiaryHandler = async ({ title, content }) => {
     try {
       const newDiary = {
-        id: self.crypto.randomUUID(), // Web Crypto API
         title,
         content,
       };  
