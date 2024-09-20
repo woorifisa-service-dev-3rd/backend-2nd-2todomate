@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { TODO_option_ICON } from "@/constants/icon";
-import { addDiary, updateDiary } from "@/api/diaryApi";
 import { usePathname } from "next/navigation";
 
 const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
@@ -59,9 +58,11 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
     // api 사용하도록 변경
     else if (pathname.startsWith("/diary")) {
       if (isNewTodoForm(children)) {
-        await addDiary({ title, content: summary });
+        const newDiary = { title, content: summary };
+        onAdd(newDiary);
       } else {
-        await updateDiary({ id: todo.id, title, content: summary });
+        const updateDiary = { id: todo.id, title, content: summary };
+        onUpdate(updateDiary);
       }
     }
     onClose();

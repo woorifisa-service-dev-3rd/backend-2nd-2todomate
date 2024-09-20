@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import TodoBody from "@/components/todo/TodoBody";
 import Header from "@/components/common/Header";
 import DefaultLayout from "@/components/common/DefaultLayout";
-import { getDiaries, updateDiary, deleteDiary } from "@/api/diaryApi";  // Updated import for Diary API
+import { getDiaries, addDiary, updateDiary, deleteDiary } from "@/api/diaryApi";  // Updated import for Diary API
 
 export default function DiaryPage() {
   const [diaries, setDiaries] = useState([]);
@@ -37,9 +37,9 @@ export default function DiaryPage() {
   };
 
   // Diary 수정 기능, 파라미터로 업데이트할 Diary 객체를 받음
-  const updateDiaryHandler = async (updateDiary) => {
+  const updateDiaryHandler = async (updatedDiary) => {
     try {
-      await updateDiary(updateDiary);
+      await updateDiary(updatedDiary);
       const updatedDiaries = diaries.map((diary) =>
         diary.id === updateDiary.id ? updateDiary : diary);
       setDiaries(updatedDiaries);
@@ -47,6 +47,7 @@ export default function DiaryPage() {
       console.error("Failed to update diary:", error);
     }
   };
+
 
   // Diary 삭제 기능
   const deleteDiaryHandler = async (id) => {

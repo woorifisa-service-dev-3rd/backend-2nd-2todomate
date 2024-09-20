@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useRef, useState } from "react";
 import TodoItemV2 from "./TodoItemV2";
@@ -24,7 +25,7 @@ const TodoBody = ({ todos, setTodos, onUpdate, onDelete, startPath }) => {
 
   return (
     <ul className="px-0 my-8">
-      {todos && todos.map((todo, index) => (
+      {Array.isArray(todos) && todos.map((todo, index) => (
         <TodoItemV2
           todo={todo}
           key={todo.id}

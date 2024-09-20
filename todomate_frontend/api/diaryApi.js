@@ -23,8 +23,8 @@ export const updateDiary = async ({ id, title, content }) => {
     body: JSON.stringify({ title, content }),
     method: 'PUT',
   });
-  return response;
-}
+  return response; // 응답 처리
+};
 
 // 다이어리 삭제 (post, /api/diaries/{id})
 export const deleteDiary = async ({ id }) => {
