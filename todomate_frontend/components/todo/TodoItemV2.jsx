@@ -4,7 +4,7 @@ import IconButton from "@/components/ui/IconButton";
 import { TODO_option_ICON } from "@/constants/icon";
 
 const TodoItemV2 = ({
-  todo,
+  todo,             // todo 또는 diary가 될 수 있음
   draggable,
   onUpdate,
   onDelete,
@@ -13,19 +13,29 @@ const TodoItemV2 = ({
   onDragEnd,
   onDragOver,
   dragging,
+  startPath        // "/todo" 또는 "/diary"로 시작하는 경로
 }) => {
-  // const [openModal, open] = useState(false);
-  // const closeModal = () => open(false);
+  const isTodo = startPath.startsWith("/todo"); // startPath로 구분
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [title, setTitle] = useState(todo.title);
-  const [summary, setSummary] = useState(todo.summary);
-  const [option, setoption] = useState(todo.option);
-  const [startDate, setStartDate] = useState(todo.startDate);
-  const [dueDate, setDueDate] = useState(todo.dueDate);
+  const [content, setContent] = useState(isTodo ? todo.summary : todo.content);
+  const [option, setOption] = useState(isTodo ? todo.option : "");
+  const [startDate, setStartDate] = useState(isTodo ? todo.startDate : "");
+  const [dueDate, setDueDate] = useState(isTodo ? todo.dueDate : "");
+  const [date, setDate] = useState(!isTodo ? todo.date : ""); // diary일 때만 date 사용
   const [isInValid, setIsInValid] = useState(false);
 
+  const calculateDaysUntilDue = (startDate, dueDate) => {
+    if (!startDate || !dueDate) return null; // 날짜가 없으면 null 반환
+    const start = new Date(startDate);
+    const due = new Date(dueDate);
+    const diffTime = due - start;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays;
+  }
+
   const updateHandler = () => {
-    if (title === "" || summary === "" || startDate === "" || dueDate === "") {
+    if (title === "" || (isTodo && content === "" && startDate === "" && dueDate === "")) {
       setIsInValid(true);
       return;
     }
@@ -33,50 +43,42 @@ const TodoItemV2 = ({
     setIsUpdateMode(false);
     setIsInValid(false);
 
-    const updateTodo = {
+    const updateItem = {
       id: todo.id,
       title,
-      summary,
-      option,
-      startDate,
-      dueDate,
+      ...(isTodo && { summary: content, option, startDate, dueDate }),  // todo일 때만 나머지 필드 포함
+      ...(!isTodo && { content, date })  // diary일 때 content와 date 포함
     };
-    onUpdate(updateTodo);
+
+    onUpdate(updateItem);
   };
 
   const backHandler = () => {
     setTitle(todo.title);
-    setSummary(todo.summary);
-    setStartDate(todo.startDate);
-    setDueDate(todo.dueDate);
+    setContent(isTodo ? todo.summary : todo.content);
+    if (isTodo) {
+      setStartDate(todo.startDate);
+      setDueDate(todo.dueDate);
+    } else {
+      setDate(todo.date);
+    }
     setIsUpdateMode(false);
     setIsInValid(false);
-  };
-
-  const changoptionHandler = () => {
-    if (option === "TODO") setoption("PROGRESS");
-    else if (option === "PROGRESS") setoption("DONE");
-    else setoption("TODO");
   };
 
   useEffect(() => {
     if (
       title !== todo.title ||
-      summary !== todo.summary ||
-      startDate !== todo.startDate ||
-      dueDate !== todo.dueDate
+      (isTodo && (content !== todo.summary || startDate !== todo.startDate || dueDate !== todo.dueDate)) ||
+      (!isTodo && (content !== todo.content || date !== todo.date))
     ) {
       setIsUpdateMode(true);
     }
 
-    if (title !== "" && summary !== "" && startDate !== "" && dueDate !== "") {
+    if (title !== "" && (isTodo ? content !== "" && startDate !== "" && dueDate !== "" : content !== "" && date !== "")) {
       setIsInValid(false);
     }
-  }, [title, summary, startDate, dueDate]);
-
-  useEffect(() => {
-    updateHandler();
-  }, [option]);
+  }, [title, content, startDate, dueDate, date]);
 
   return (
     <li
@@ -89,16 +91,23 @@ const TodoItemV2 = ({
       onDragOver={onDragOver}
     >
       <div className="w-4/5">
-        <div className="flex space-x-4">
+        <div className="flex items-center space-x-4">
           <span className="text-lg font-medium text-gray-300">
-            {/* {TODO_option_ICON[todo.option]} */}
-            <IconButton
-              icon={TODO_option_ICON[option]}
-              onClick={changoptionHandler}
-            />
+            {isTodo && (
+              <IconButton
+                icon={TODO_option_ICON[option]}
+                onClick={() => {
+                  if (option === "TODO") setOption("PROGRESS");
+                  else if (option === "PROGRESS") setOption("DONE");
+                  else setOption("TODO");
+                }}
+              />
+            )}
           </span>
           <span>
-            <div>디데이</div>
+            {isTodo && startDate && dueDate && (
+              <span className="flex text-sm text-gray-300">{calculateDaysUntilDue(startDate, dueDate) === 0 ? 'D-' : `${calculateDaysUntilDue(startDate, dueDate)}`}day</span>
+            )}
           </span>
         </div>
         <div className="flex flex-col mt-2 w-full">
@@ -110,38 +119,48 @@ const TodoItemV2 = ({
             className="mb-0 text-lg font-bold text-gray-100 uppercase bg-transparent pt-2 pb-2"
             onChange={(event) => setTitle(event.target.value)}
           />
-          {/* <input
-            type="text"
-            value={summary}
-            className="text-base text-gray-200 bg-transparent pt-2 pb-2"
-            onChange={(event) => setSummary(event.target.value)}
-          /> */}
-          <textarea
-            value={summary}
-            className="text-base text-gray-200 bg-transparent pt-2 pb-2 resize-none"
-            rows={1} // 기본 행 수 설정
-            maxLength={80}
-            onChange={(event) => setSummary(event.target.value)}
-            onInput={(event) => {
-              event.target.style.height = "auto"; // 높이를 자동으로 조절하기 위해 초기화
-              event.target.style.height = `${event.target.scrollHeight}px`; // 내용에 따라 높이를 설정
-            }}
-          />
-
-          <div className="flex space-x-4">
-            <input
-              type="date"
-              className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
-              value={startDate}
-              onChange={(event) => setStartDate(event.target.value)}
-            />
-            <input
-              type="date"
-              className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
-              value={dueDate}
-              onChange={(event) => setDueDate(event.target.value)}
-            />
-          </div>
+          {isTodo ? (
+            <>
+              <textarea
+                value={content}
+                className="text-base text-gray-200 bg-transparent pt-2 pb-2 resize-none"
+                rows={1}
+                maxLength={80}
+                onChange={(event) => setContent(event.target.value)}
+                onInput={(event) => {
+                  event.target.style.height = "auto";
+                  event.target.style.height = `${event.target.scrollHeight}px`;
+                }}
+              />
+              <div className="flex space-x-4">
+                <input
+                  type="date"
+                  className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
+                  value={startDate}
+                  onChange={(event) => setStartDate(event.target.value)}
+                />
+                <input
+                  type="date"
+                  className="w-1/2 p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
+                  value={dueDate}
+                  onChange={(event) => setDueDate(event.target.value)}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col">
+              {!isTodo && date && ( // diary일 때만 date 표시
+                <span className="text-sm text-gray-300 mb-1">{date}</span>
+              )}
+              <textarea
+                value={content}
+                className="text-base text-gray-200 bg-transparent pt-2 pb-2 resize-none"
+                rows={3}
+                maxLength={200}
+                onChange={(event) => setContent(event.target.value)}
+              />
+            </div>
+          )}
 
           {isInValid && (
             <div className="mt-2 text-red-500">
@@ -151,9 +170,12 @@ const TodoItemV2 = ({
         </div>
       </div>
       <div className="flex items-center gap-1">
-        {/* 수정 사항이 있을 때, 저장 버튼 생성 */}
-        {isUpdateMode ? <IconButton icon={"❌"} onClick={backHandler} /> : ""}
-        {isUpdateMode ? <IconButton icon={"💾"} onClick={updateHandler} /> : ""}
+        {isUpdateMode && (
+          <>
+            <IconButton icon={"❌"} onClick={backHandler} />
+            <IconButton icon={"💾"} onClick={updateHandler} />
+          </>
+        )}
         <IconButton
           textColor="text-red-300"
           icon={"🗑"}

@@ -16,7 +16,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
   const [summary, setSummary] = useState(
     isNewTodoForm(children) ? "" : todo.summary
   );
-  const [option, setoption] = useState(
+  const [option, setOption] = useState(
     isNewTodoForm(children) ? "TODO" : todo.option
   );
   const [startDate, setStartDate] = useState(
@@ -107,7 +107,7 @@ const TodoForm = ({ onAdd, onUpdate, onClose, children, todo }) => {
                 className="w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded"
                 id="option"
                 value={option}
-                onChange={(event) => setoption(event.target.value)}
+                onChange={(event) => setOption(event.target.value)}
               >
                 <option value="TODO">{TODO_option_ICON.TODO} To do</option>
                 <option value="PROGRESS">{TODO_option_ICON.PROGRESS} On progress</option>

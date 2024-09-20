@@ -21,7 +21,7 @@ export const addTodo = async ({ title, summary, option, startDate, dueDate }) =>
 
 // Todo 수정 (put, /api/todos/update/{id})
 export const updateTodo = async ({ id, title, summary, option, startDate, dueDate }) => {
-    const response = await instance('todos/update/${id}', {
+    const response = await instance(`todos/update/${id}`, {
         body: JSON.stringify({ title, summary, option, startDate, dueDate }),
         method: 'POST',
     });
@@ -30,7 +30,7 @@ export const updateTodo = async ({ id, title, summary, option, startDate, dueDat
 
 // 다이어리 삭제 (post, /api/todos/delete/{id})
 export const deleteTodo = async ({ id }) => {
-    const response = await instance('todos/delete/${id}', {
+    const response = await instance(`todos/delete/${id}`, {
         method: 'POST',
     });
     return response;

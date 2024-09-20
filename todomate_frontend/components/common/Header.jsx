@@ -51,7 +51,8 @@ const Header = ({ onAdd, option, onFilter }) => {
           </Modal>,
           document.body
         )}
-      <TodoFilter option={option} onFilter={onFilter} />
+        {pathname.startsWith("/todo") ? <TodoFilter option={option} onFilter={onFilter} /> : <></>}
+      
     </div>
   );
 };
