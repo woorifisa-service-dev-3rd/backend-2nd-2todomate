@@ -206,3 +206,6 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,nextjs,gradle
+
+# .gitignore에서 제외할 파일
+!application.properties
